@@ -1,45 +1,45 @@
+from email import header
+from operator import index
+from flask import Flask, request, render_template, jsonify
+from model import SentimentRecommenderModel
 
 
-# This is the engine of the REST based flask API
+app = Flask(__name__)
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-import pickle
-from model import Recommendation
-
-recommend = Recommendation()
-app = Flask(__name__)  # intitialize the flaks app  # common 
-
-import os
-from flask import send_from_directory
+sentiment_model = SentimentRecommenderModel()
 
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-@app.route('/', methods = ['POST', 'GET'])
+@app.route('/')
 def home():
-    flag = False 
-    data = ""
-    if request.method == 'POST':
-        flag = True
-        user = request.form["userid"]
-        data=recommend.getTopProducts(user)
-    return render_template('index.html', data=data, flag=flag)
+    return render_template('index.html')
 
-@app.route('/userList', methods = ['GET'])
-def userList():
-    data=recommend.getUsers()
-    return data
 
-@app.route('/productList', methods = ['GET'])
-def productList():
-    user=request.args.get("userid")
-    data=recommend.getTopProductsNew(user)
-    return data
+@app.route('/predict', methods=['POST'])
+def prediction():
+    # get user from the html form
+    user = request.form['userName']
+    # convert text to lowercase
+    user = user.lower()
+    items = sentiment_model.getSentimentRecommendations(user)
 
-if __name__ == '__main__' :
-    app.run(debug=True )  
-    
-    #,host="0.0.0.0")
+    if(not(items is None)):
+        print(f"retrieving items....{len(items)}")
+        print(items)
+        # data=[items.to_html(classes="table-striped table-hover", header="true",index=False)
+        return render_template("index.html", column_names=items.columns.values, row_data=list(items.values.tolist()), zip=zip)
+    else:
+        return render_template("index.html", message="User Name doesn't exists, No product recommendations at this point of time!")
+
+
+@app.route('/predictSentiment', methods=['POST'])
+def predict_sentiment():
+    # get the review text from the html form
+    review_text = request.form["reviewText"]
+    print(review_text)
+    pred_sentiment = sentiment_model.classify_sentiment(review_text)
+    print(pred_sentiment)
+    return render_template("index.html", sentiment=pred_sentiment)
+
+
+if __name__ == '__main__':
+    app.run()

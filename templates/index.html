@@ -11,14 +11,15 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <title>Sentiment Based Product Recommendation</title>
+	 
+    <title>Ebuss - Sentiment Based Product Recommendation</title>
   </head>
-
+  <body style="background-color:#e6ebef">
   <body>
     <nav class="navbar fixed-top navbar-dark bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#"
-          >Sentiment Product Recommendation System</a
+          >Ebuss - Sentiment Product Recommendation System</a
         >
         <button
           class="navbar-toggler"
@@ -29,7 +30,7 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          
         </button>
       </div>
     </nav>
@@ -47,7 +48,7 @@
                 placeholder="Enter UserName to search..."
               />
               <p>
-                <small>Enter usernames like "02dakota", "123charlie", "08dallas" etc. </small>
+                <small>Enter usernames like "mike", "123charlie", "08dallas" etc. </small>
               </p>
             </div>
             <div class="col-sm-2">
@@ -88,47 +89,11 @@
         </div>
       </form>
 
-      <form method="post" action="/predictSentiment">
-        <div class="row vstack gap-3">
-          <div class="row">
-            <label for="reviewText" class="form-label"
-              >Enter your Review here</label
-            >
-            <textarea
-              class="form-control"
-              name="reviewText"
-              rows="3"
-              id="reviewText"
-            ></textarea>
-          </div>
-          <div class="row">
-            <div class="col align-self-end">
-              <input
-                type="submit"
-                class="btn btn-primary float-end"
-                value="Predict Sentiment"
-              />
-            </div>
-          </div>
-          <div class="row">
-            {% if sentiment == 1%}
-            <div class="alert alert-success" role="alert">
-              Entered Review Text is predicted to be Positive
-            </div>
-            {% elif sentiment == 0%}
-            <div class="alert alert-danger" role="alert">
-              Entered Review Text is predicted to be Negative
-            </div>
-            {% endif %}
-          </div>
-        </div>
-      </form>
-    </div>
-  </body>
+       
   <footer class="bg-light text-center text-lg-start fixed-bottom">
     <!-- Copyright -->
     <div class="text-center p-3 bg-light">
-      Created by saurabh sharma
+      <B>Created by SAURABH SHARMA</B>
     </div>
     <!-- Copyright -->
   </footer>
